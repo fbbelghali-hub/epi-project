@@ -4,5 +4,5 @@ public enum Role {
     ADMIN,
     COLLABORATEUR,
     DIRECTEUR,
-    Responsable_ACHAT
+    RESPONSABLE_ACHAT
 }

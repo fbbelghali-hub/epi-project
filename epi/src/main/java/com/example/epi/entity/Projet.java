@@ -1,5 +1,6 @@
 package com.example.epi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,5 +20,6 @@ public class Projet {
     private String nom;
 
     @OneToMany(mappedBy = "projet", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<User> collaborateurs;
 }

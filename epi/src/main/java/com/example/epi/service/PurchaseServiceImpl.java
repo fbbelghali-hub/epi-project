@@ -35,7 +35,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 
         for (EpiRequest request : requests) {
 
-            if (request.getStatus() == RequestStatus.VALIDEE) {
+            if (request.getStatus() == RequestStatus.VALIDEE||request.getStatus() == RequestStatus.ACHAT_EFFECTUE) {
                 result.add(mapper.toDTO(request));
             }
         }

@@ -1,6 +1,7 @@
 package com.example.epi.service;
 
 import com.example.epi.dto.UserDTO;
+import com.example.epi.entity.User;
 
 import java.util.List;
 public interface UserService {
@@ -13,4 +14,5 @@ public interface UserService {
     UserDTO updateUser(Long id, UserDTO dto);
 
     void deleteUser(Long id);
+    public User findByEmail(String email);
 }

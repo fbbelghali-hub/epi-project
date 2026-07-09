@@ -13,9 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.example.epi.criteria.EpiRequestCriteria;
+import com.example.epi.dto.SearchRequestDTO;
 
 @Service
 @RequiredArgsConstructor
+
 public class EpiRequestServiceImpl implements EpiRequestService {
 
     private final EPIRequestRepository requestRepository;
@@ -113,7 +116,10 @@ public class EpiRequestServiceImpl implements EpiRequestService {
         if (request.getStatus() != RequestStatus.EN_COURS) {
             throw new RuntimeException("Cannot update request");
         }
+        Epi epi = epiRepository.findById(dto.getEpiId())
+                .orElseThrow(() -> new RuntimeException("EPI not found"));
 
+        request.setEpi(epi);
         request.setRequestQuantity(dto.getRequestQuantity());
         request.setReason(dto.getReason());
         request.setSize(dto.getSize());
@@ -240,5 +246,34 @@ public class EpiRequestServiceImpl implements EpiRequestService {
             log.error(" ERROR GET DIRECTEUR REQUESTS - id={}", directeurId, e);
             throw e;
         }
+    }
+    @Override
+    public List<EpiRequestDTO> searchRequests(
+            SearchRequestDTO dto,
+            String role,
+            Long employeeId,
+            Long projetId) {
+
+        if ("DIRECTEUR".equals(role)) {
+
+            User directeur = userRepository.findById(projetId)
+                    .orElseThrow(() ->
+                            new RuntimeException("Directeur introuvable"));
+
+            projetId = directeur.getProjet().getId();
+        }
+
+        List<EpiRequest> requests = requestRepository.findAll(
+                EpiRequestCriteria.search(
+                        dto,
+                        role,
+                        employeeId,
+                        projetId
+                )
+        );
+
+        return requests.stream()
+                .map(mapper::toDTO)
+                .toList();
     }
 }

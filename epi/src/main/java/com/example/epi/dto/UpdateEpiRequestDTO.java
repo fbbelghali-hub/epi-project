@@ -1,5 +1,6 @@
 package com.example.epi.dto;
 
+import com.example.epi.enums.TypeEPI;
 import lombok.*;
 
 @Getter
@@ -8,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class UpdateEpiRequestDTO {
 
+    private Long epiId;
     private Integer requestQuantity;
 
     private String reason;

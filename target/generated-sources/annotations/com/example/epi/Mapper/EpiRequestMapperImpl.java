@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-06-19T10:36:33+0100",
+    date = "2026-07-03T10:19:17+0100",
     comments = "version: 1.6.3, compiler: javac, environment: Java 17.0.19 (Microsoft)"
 )
 @Component
@@ -28,13 +28,12 @@ public class EpiRequestMapperImpl implements EpiRequestMapper {
 
         EpiRequestDTO epiRequestDTO = new EpiRequestDTO();
 
-        epiRequestDTO.setEmployeeName( entityEmployeeLastName( entity ) );
         epiRequestDTO.setEmployeeId( entityEmployeeId( entity ) );
+        epiRequestDTO.setEmployeeName( entityEmployeeLastName( entity ) );
+        epiRequestDTO.setEmployeeFirstName( entityEmployeeFirstName( entity ) );
+        epiRequestDTO.setEmail( entityEmployeeEmail( entity ) );
         epiRequestDTO.setEpiId( entityEpiId( entity ) );
-        TypeEPI typeEPI = entityEpiTypeEPI( entity );
-        if ( typeEPI != null ) {
-            epiRequestDTO.setEpiType( typeEPI.name() );
-        }
+        epiRequestDTO.setEpiType( entityEpiTypeEPI( entity ) );
         epiRequestDTO.setId( entity.getId() );
         epiRequestDTO.setRequestDate( entity.getRequestDate() );
         epiRequestDTO.setRequestQuantity( entity.getRequestQuantity() );
@@ -91,6 +90,14 @@ public class EpiRequestMapperImpl implements EpiRequestMapper {
         return epiRequest.build();
     }
 
+    private Long entityEmployeeId(EpiRequest epiRequest) {
+        User employee = epiRequest.getEmployee();
+        if ( employee == null ) {
+            return null;
+        }
+        return employee.getId();
+    }
+
     private String entityEmployeeLastName(EpiRequest epiRequest) {
         User employee = epiRequest.getEmployee();
         if ( employee == null ) {
@@ -99,12 +106,20 @@ public class EpiRequestMapperImpl implements EpiRequestMapper {
         return employee.getLastName();
     }
 
-    private Long entityEmployeeId(EpiRequest epiRequest) {
+    private String entityEmployeeFirstName(EpiRequest epiRequest) {
         User employee = epiRequest.getEmployee();
         if ( employee == null ) {
             return null;
         }
-        return employee.getId();
+        return employee.getFirstName();
+    }
+
+    private String entityEmployeeEmail(EpiRequest epiRequest) {
+        User employee = epiRequest.getEmployee();
+        if ( employee == null ) {
+            return null;
+        }
+        return employee.getEmail();
     }
 
     private Long entityEpiId(EpiRequest epiRequest) {

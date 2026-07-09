@@ -1,5 +1,6 @@
 package com.example.epi.dto;
 
+import com.example.epi.enums.TypeEPI;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,9 @@ public class EpiRequestDTO {
     private Long employeeId;
 
     private String employeeName;
-
+    private String employeeFirstName;
     private Long epiId;
 
-    private String epiType;
+    private TypeEPI epiType;
+    private String email;
 }

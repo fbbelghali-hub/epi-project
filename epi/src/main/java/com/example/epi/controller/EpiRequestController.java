@@ -1,13 +1,22 @@
 package com.example.epi.controller;
 
+import com.example.epi.criteria.EpiRequestCriteria;
 import com.example.epi.dto.CreateEpiRequestDTO;
 import com.example.epi.dto.EpiRequestDTO;
+import com.example.epi.dto.SearchRequestDTO;
 import com.example.epi.dto.UpdateEpiRequestDTO;
+
+import com.example.epi.entity.User;
 import com.example.epi.service.EpiRequestService;
 import com.example.epi.service.PurchaseService;
+import com.example.epi.service.UserService;
 import lombok.RequiredArgsConstructor;
+
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -15,13 +24,16 @@ import java.util.List;
 @RequestMapping("/api/requests")
 @RequiredArgsConstructor
 
+
 public class EpiRequestController {
 
     private final EpiRequestService epiRequestService;
     private final PurchaseService purchaseService;
+    private final UserService userService;
 
 
     //affiche tous les demandes
+
     @GetMapping("/directeur/{directeurId}")
     public ResponseEntity<List<EpiRequestDTO>> getDemandesParDirecteur(
             @PathVariable Long directeurId) {
@@ -78,10 +90,26 @@ public class EpiRequestController {
         epiRequestService.cancelRequest(id);
     }
 
+
+
     @GetMapping
     public List<EpiRequestDTO> getAllRequests() {
         return epiRequestService.getAllRequests();
     }
+    @PostMapping("/search")
+    public ResponseEntity<List<EpiRequestDTO>> search(
+            @RequestBody SearchRequestDTO dto,
+            @RequestParam String role,
+            @RequestParam(required = false) Long employeeId,
+            @RequestParam(required = false) Long projetId) {
 
-
+        return ResponseEntity.ok(
+                epiRequestService.searchRequests(
+                        dto,
+                        role,
+                        employeeId,
+                        projetId
+                )
+        );
+    }
 }

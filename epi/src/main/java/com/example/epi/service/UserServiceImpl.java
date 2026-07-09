@@ -90,4 +90,8 @@ public class UserServiceImpl implements UserService {
 
         log.info("User deleted id={}", id);
     }
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+    }
 }

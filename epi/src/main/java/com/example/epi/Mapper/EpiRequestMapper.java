@@ -11,8 +11,10 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface EpiRequestMapper {
-    @Mapping(source = "employee.lastName", target = "employeeName")
     @Mapping(source = "employee.id", target = "employeeId")
+    @Mapping(source = "employee.lastName", target = "employeeName")
+    @Mapping(source = "employee.firstName", target = "employeeFirstName")
+    @Mapping(source = "employee.email", target = "email")
     @Mapping(source = "epi.id", target = "epiId")
     @Mapping(source = "epi.typeEPI", target = "epiType")
     EpiRequestDTO toDTO(EpiRequest entity);
